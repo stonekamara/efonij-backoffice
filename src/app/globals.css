@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-100 text-slate-800 antialiased;
+}
+
+/* Typographie Revolut : Inter (texte) + Inter Tight (titres, façon Aeonik Pro).
+   Limitée à la landing (racine .landing-root) pour ne pas toucher au back-office. */
+.landing-root {
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+.landing-root h1,
+.landing-root h2,
+.landing-root h3,
+.landing-root h4 {
+  font-family: var(--font-display), var(--font-inter), sans-serif;
+}
+
+/* Courbe d'accélération signature Revolut */
+.ease-revolut {
+  transition-timing-function: cubic-bezier(0.35, 0, 0, 1);
+}
+
+/* Contenu du carrousel hero qui change de slide */
+@keyframes heroSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-slide-in {
+  animation: heroSlideIn 0.55s cubic-bezier(0.35, 0, 0, 1) both;
+}
+
+/* Masque la barre de défilement des carrousels tout en gardant le scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Sans JavaScript, les blocs Reveal restent visibles (pas d'animation) */
+html:not(.js) [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Sans JavaScript, les titres révélés mot par mot restent lisibles */
+html:not(.js) [data-split] span span {
+  transform: none !important;
+}
+
+/* Accessibilité : désactive les animations pour ceux qui les réduisent */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-tab-in,
+  .animate-shimmer > div,
+  .mesh-blob,
+  .mesh-blob-2,
+  .animate-fade-up,
+  .animate-marquee,
+  .hero-slide-in {
+    animation: none;
+  }
+  /* Les titres révélés mot par mot apparaissent d'un coup, sans glissement */
+  [data-split] span span {
+    transition: none !important;
+  }
+  /* Cartes du carrousel hero : pas de glissement */
+  .hero-carousel-card {
+    transition: none !important;
+  }
+}
+
+/* Le bandeau marquee se fige au survol pour rester lisible */
+@media (hover: hover) {
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Bandeau défilant infini (marquee) — signature des sites récompensés */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Flottaison douce des mockups produits (style Revolut) */
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-float-slow {
+  animation: floatSoft 6s ease-in-out infinite;
+}
+
+/* Transition douce du contenu quand on change d'onglet */
+@keyframes tabIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-tab-in {
+  animation: tabIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
